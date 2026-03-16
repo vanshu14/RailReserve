@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="max-w-6xl mx-auto px-4 py-10">
+
+<!-- PAGE TITLE -->
+<div class="mb-10">
+
+<h1 class="text-3xl font-bold text-gray-800">
+Available Trains
+</h1>
+
+<p class="text-gray-600 mt-1">
+{{ from_station }} → {{ to_station }}
+</p>
+
+</div>
+
+
+<!-- TRAIN LIST -->
+<div class="space-y-6">
+
+{% if trains %}
+
+{% for train in trains %}
+
+<div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-xl transition">
+
+<div class="grid grid-cols-1 md:grid-cols-5 items-center gap-6">
+
+
+<!-- TRAIN INFO -->
+<div class="md:col-span-2">
+
+<h2 class="text-lg font-semibold text-gray-800">
+{{ train.Train_Name }}
+</h2>
+
+<p class="text-gray-500 text-sm">
+Train No: {{ train.Train_No }}
+</p>
+
+<p class="text-gray-600 text-sm">
+{{ train.Source_Station_Name }} → {{ train.Destination_Station_Name }}
+</p>
+
+<p class="text-xs text-gray-400">
+Runs on: {{ train.days }}
+</p>
+
+</div>
+
+
+<!-- DEPARTURE -->
+<div class="text-center">
+
+<p class="text-gray-500 text-sm">
+Departure
+</p>
+
+<p class="font-semibold departure-time"></p>
+
+</div>
+
+
+<!-- ARRIVAL -->
+<div class="text-center">
+
+<p class="text-gray-500 text-sm">
+Arrival
+</p>
+
+<p class="font-semibold arrival-time"></p>
+
+</div>
+
+
+<!-- SEATS + BOOK -->
+<div class="text-center">
+
+<p class="text-gray-500 text-sm">
+Seats Available
+</p>
+
+<p class="font-semibold
+{% if train.available_seats > 20 %}
+text-green-600
+{% elif train.available_seats > 5 %}
+text-yellow-600
+{% else %}
+text-red-600
+{% endif %}
+">
+
+{{ train.available_seats }} seats
+
+</p>
+
+<a
+href="{{ url_for('coach_selection', train_no=train.Train_No) }}?date={{ date }}"
+class="inline-block mt-3 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition">
+
+Book
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+{% else %}
+
+<div class="bg-white p-8 rounded-xl shadow text-center">
+
+<p class="text-red-500 font-medium mb-4">
+No trains found for this route.
+</p>
+
+<a href="/" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+Search Again
+</a>
+
+</div>
+
+{% endif %}
+
+</div>
+
+</div>
+
+
+<!-- MOCK TIME SCRIPT -->
+<script>
+
+function randomTime(){
+
+let hour = Math.floor(Math.random()*24)
+let min = Math.floor(Math.random()*60)
+
+return `${hour.toString().padStart(2,'0')}:${min.toString().padStart(2,'0')}`
+
+}
+
+document.querySelectorAll(".departure-time").forEach(el=>{
+el.textContent = randomTime()
+})
+
+document.querySelectorAll(".arrival-time").forEach(el=>{
+el.textContent = randomTime()
+})
+
+</script>
+
+{% endblock %}

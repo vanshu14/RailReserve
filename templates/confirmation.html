@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="max-w-5xl mx-auto px-4 py-10">
+
+<!-- SUCCESS MESSAGE -->
+<div class="bg-green-100 border border-green-300 text-green-700 p-4 rounded-lg mb-8">
+
+<h2 class="text-xl font-semibold">
+Booking Confirmed 🎉
+</h2>
+
+<p class="text-sm">
+Your ticket has been successfully booked.
+</p>
+
+</div>
+
+
+<!-- TICKET -->
+<div class="bg-white shadow-2xl rounded-xl overflow-hidden border">
+
+<!-- TICKET HEADER -->
+<div class="bg-blue-600 text-white p-6 flex justify-between items-center">
+
+<div>
+<h2 class="text-2xl font-bold">RailReserve</h2>
+<p class="text-sm">Electronic Reservation Slip</p>
+</div>
+
+<div class="text-right">
+<p class="text-sm">PNR Number</p>
+<p class="text-xl font-bold tracking-wide">
+{{ pnr }}
+</p>
+</div>
+
+</div>
+
+
+<!-- TRAIN DETAILS -->
+<div class="p-6 border-b">
+
+<h3 class="text-lg font-semibold text-gray-800 mb-4">
+Journey Details
+</h3>
+
+<div class="grid md:grid-cols-3 gap-4 text-sm">
+
+<div>
+<p class="text-gray-500">Train</p>
+<p class="font-semibold">
+{{ train.Train_Name }} ({{ train.Train_No }})
+</p>
+</div>
+
+<div>
+<p class="text-gray-500">Coach</p>
+<p class="font-semibold">
+{{ coach }}
+</p>
+</div>
+
+<div>
+<p class="text-gray-500">Travel Date</p>
+<p class="font-semibold">
+{{ travel_date }}
+</p>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- PASSENGER TABLE -->
+<div class="p-6">
+
+<h3 class="text-lg font-semibold text-gray-800 mb-4">
+Passenger Information
+</h3>
+
+<div class="overflow-x-auto">
+
+<table class="w-full border-collapse text-sm">
+
+<thead>
+
+<tr class="bg-gray-100 text-left">
+
+<th class="p-3 border">Passenger</th>
+<th class="p-3 border">Age</th>
+<th class="p-3 border">Gender</th>
+<th class="p-3 border">Seat</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for t in tickets %}
+
+<tr>
+
+<td class="p-3 border">{{ t.name }}</td>
+<td class="p-3 border">{{ t.age }}</td>
+<td class="p-3 border">{{ t.gender }}</td>
+<td class="p-3 border font-semibold">
+{{ t.seat }}
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- FOOTER -->
+<div class="bg-gray-50 p-6 flex flex-wrap justify-between items-center gap-4">
+
+<p class="text-sm text-gray-500">
+Please carry a valid ID proof during travel.
+</p>
+
+<div class="flex gap-4">
+
+<a href="/"
+class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+
+Book Another Ticket
+
+</a>
+
+<a href="/history"
+class="bg-gray-700 text-white px-6 py-2 rounded hover:bg-gray-800">
+
+View Booking History
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

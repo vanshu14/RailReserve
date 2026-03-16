@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="relative min-h-screen flex items-center justify-center">
+
+<!-- BACKGROUND -->
+<div class="absolute inset-0">
+<img
+src="{{ url_for('static', filename='images/train-bg.png') }}"
+class="w-full h-full object-cover"
+>
+</div>
+
+<!-- DARK OVERLAY -->
+<div class="absolute inset-0 bg-black/60"></div>
+
+
+<!-- PAGE CONTENT -->
+<div class="relative z-10 max-w-6xl w-full px-4 py-12">
+
+<h1 class="text-4xl font-bold text-white mb-10 text-center">
+Booking History
+</h1>
+
+
+{% if history %}
+
+<div class="space-y-6">
+
+{% for ticket in history %}
+
+<!-- BOOKING CARD -->
+<div class="bg-white shadow-xl rounded-xl p-6 hover:shadow-2xl transition">
+
+<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+<!-- PASSENGER -->
+<div>
+<p class="text-sm text-gray-500">Passenger</p>
+<p class="font-semibold text-gray-800">
+{{ ticket.passenger_name }}
+</p>
+</div>
+
+<!-- AGE -->
+<div>
+<p class="text-sm text-gray-500">Age</p>
+<p class="font-semibold text-gray-800">
+{{ ticket.age }}
+</p>
+</div>
+
+<!-- GENDER -->
+<div>
+<p class="text-sm text-gray-500">Gender</p>
+<p class="font-semibold text-gray-800">
+{{ ticket.gender }}
+</p>
+</div>
+
+<!-- TRAIN -->
+<div>
+<p class="text-sm text-gray-500">Train</p>
+<p class="font-semibold text-gray-800">
+{{ ticket.train_name }} ({{ ticket.train_number }})
+</p>
+</div>
+
+<!-- COACH -->
+<div>
+<p class="text-sm text-gray-500">Coach</p>
+<p class="font-semibold text-gray-800">
+{{ ticket.coach if ticket.coach else "SL" }}
+</p>
+</div>
+
+<!-- SEAT -->
+<div>
+<p class="text-sm text-gray-500">Seat</p>
+<p class="font-semibold text-gray-800">
+{{ ticket.seat_number }}
+</p>
+</div>
+
+<!-- TRAVEL DATE -->
+<div>
+<p class="text-sm text-gray-500">Travel Date</p>
+<p class="font-semibold text-gray-800">
+{{ ticket.journey_date }}
+</p>
+</div>
+
+<!-- BOOKING DATE -->
+<div>
+<p class="text-sm text-gray-500">Booking Date</p>
+<p class="font-semibold text-gray-800">
+{{ ticket.booking_date }}
+</p>
+</div>
+
+<!-- PNR -->
+<div>
+<p class="text-sm text-gray-500">PNR Number</p>
+<p class="font-semibold text-blue-600">
+{{ ticket.pnr_number }}
+</p>
+</div>
+
+</div>
+
+
+<!-- CANCEL BUTTON -->
+<div class="mt-6 flex justify-end">
+
+<form action="{{ url_for('cancel_ticket', id=ticket.id) }}" method="POST">
+
+<button
+onclick="return confirm('Are you sure you want to cancel this ticket?')"
+class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-lg transition">
+
+Cancel Ticket
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+
+{% else %}
+
+<!-- EMPTY STATE -->
+
+<div class="bg-white shadow-xl rounded-xl p-10 text-center">
+
+<p class="text-gray-500 mb-6 text-lg">
+No bookings yet.
+</p>
+
+<a
+href="{{ url_for('home') }}"
+class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition">
+
+Book Ticket
+
+</a>
+
+</div>
+
+{% endif %}
+
+</div>
+
+</div>
+
+{% endblock %}

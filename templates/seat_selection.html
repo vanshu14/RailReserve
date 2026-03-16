@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="max-w-6xl mx-auto px-4 py-10">
+
+<!-- PAGE TITLE -->
+<h1 class="text-3xl font-bold text-gray-800 mb-2">
+Select Your Seats
+</h1>
+
+<p class="text-gray-600 mb-6">
+Train: {{ train.Train_Name }} ({{ train.Train_No }}) |
+Coach: <span class="font-semibold text-blue-600">{{ coach }}</span> |
+Travel Date: {{ travel_date }}
+</p>
+
+
+<!-- LEGEND -->
+<div class="flex flex-wrap gap-6 mb-8 text-sm">
+
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 bg-green-500 rounded"></div>
+Lower
+</div>
+
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 bg-orange-500 rounded"></div>
+Middle
+</div>
+
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 bg-blue-500 rounded"></div>
+Upper
+</div>
+
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 bg-pink-500 rounded"></div>
+Side Lower
+</div>
+
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 bg-purple-500 rounded"></div>
+Side Upper
+</div>
+
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 bg-gray-400 rounded"></div>
+Booked
+</div>
+
+</div>
+
+
+<form action="{{ url_for('passenger_details', train_no=train_no) }}" method="POST">
+
+<!-- HIDDEN DATA -->
+<input type="hidden" name="selected_seats" id="selectedSeatsInput">
+<input type="hidden" name="date" value="{{ travel_date }}">
+<input type="hidden" name="coach" value="{{ coach }}">
+<input type="hidden" name="train" value="{{ train.Train_Name }}">
+<input type="hidden" name="train_number" value="{{ train.Train_No }}">
+
+
+<!-- COACH LAYOUT -->
+<div class="bg-gray-100 rounded-xl shadow-lg p-6 mb-8 overflow-x-auto">
+
+<div id="coach" class="space-y-6"></div>
+
+</div>
+
+
+<!-- SELECTED SEATS + CONTINUE -->
+<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+
+<div class="text-lg">
+Selected Seats:
+<span id="selectedSeats" class="font-semibold text-blue-600">
+None
+</span>
+</div>
+
+
+<button
+id="continueBtn"
+type="submit"
+disabled
+class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition disabled:opacity-50">
+
+Continue to Passenger Details
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+
+<!-- BOOKED SEATS FROM DATABASE -->
+<script>
+const bookedSeats = {{ booked_seats | tojson | safe }};
+</script>
+
+
+<!-- SEAT SCRIPT -->
+<script src="{{ url_for('static', filename='js/seat_selection.js') }}"></script>
+
+{% endblock %}
